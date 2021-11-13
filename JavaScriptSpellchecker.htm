@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>JavaScript Spellchecker</title>
+		<style>
+			html,body{background-color:#f7fafc;font-family:Arial;-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:none;margin:0;padding:0}
+			.title{display:inline-block;font-size:30px;margin-left:10px;margin-top:10px;margin-bottom:10px;color:#2d3748;cursor:default}
+			textarea{display:inline-block;background-color:white;margin-left:10px;margin-bottom:10px;border:1px solid #e2e8f0;width:90%;height:300px;resize:none}
+			textarea:disabled{background-color:#CECECE;border:1px solid #e2e8f0}
+			#buttonSpellcheck{width:130px;background-color:#4299e1;margin-left:10px;border:1px solid #4299e1;border-radius:7px;font-size:15px;font-weight:bold;color:white;line-height:2.5;margin-top:5px;margin-bottom:10px;cursor:pointer}
+			#buttonSpellcheck:hover{background-color:#3182ce;border:1px solid #3182ce}
+			#results{display:inline-block;margin-left:10px;margin-top:10px;color:#2d3748;cursor:text;-webkit-user-select:text;-moz-user-select:text;user-select:text}
+		</style>
+	</head>
+	<body>
+		<span class="title">JavaScript Spellchecker</span><br/>
+		<textarea id="in" spellcheck="false">%thiz2 is a +tezt?.</textarea><br/>
+		<input type="button" id="buttonSpellcheck" value="SPELLCHECK"><br/>
+		<span id="results"></span>
+
+		<script>
+			// CREATING THE WEB WORKER
+			var worker = new Worker("JavaScriptSpellchecker.js");
+
+			// SETTING WHAT WILL HAPPEN WHEN A MESSAGE IS RECEIVED FROM THE WEB WORKER
+			worker.onmessage = function(e)
+				{
+				// GETTING THE WORKER MESSAGE
+				var words = e.data;
+
+				// SHOWING THE RECEIVED MISSPELLED WORDS
+				document.getElementById("results").innerHTML = JSON.stringify(words);
+
+				// ENABLING THE OUT TEXTAREA
+				document.getElementById("in").disabled = false;
+
+				return true;
+				}
+
+			function startSpellchecking(language, text)
+				{
+				// GETTING ALL THE WORDS FROM THE TEXT DOCUMENT
+				var results = text.match(/[^ ?,.1234567890·!¡¿,`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/\s]+/g);
+
+				// UPDATING THE RESULT LABEL
+				document.getElementById("results").innerHTML = "Please wait...";
+
+				// CREATING THE DATA FOR THE REQUEST
+				var dataRequest = {};
+				dataRequest["lang"] = language;
+				dataRequest["words"] = results;
+
+				// SENDING THE SPELLCHECKING REQUEST
+				worker.postMessage(dataRequest);
+
+				// DISABLING THE IN TEXTAREA
+				document.getElementById("in").disabled = true;
+				}
+
+			// SETTING WHAT WILL HAPPEN WHEN WEBSITE IS LOADED
+			window.addEventListener("load", function()
+				{
+				// SETTING WHAT WILL HAPPEN WHEN THE USER CLICKS ON THE SPELLCHECK BUTTON
+				document.getElementById("buttonSpellcheck").addEventListener("click",function(event)
+					{
+					// START THE SPELLCHECKING PROCESS WITH THE TEXTAREA VALUE AND USING THE ENGLISH DICTONARY
+					startSpellchecking("en-US", document.getElementById("in").value);
+					});
+				});
+		</script>
+	</body>
+</html>
