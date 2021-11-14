@@ -2,6 +2,8 @@
 
 Simple Spellchecker in JavaScript.
 
+![alt screenshot](https://raw.githubusercontent.com/lrusso/JavaScriptSpellchecker/main/JavaScriptSpellchecker.png)
+
 ## Web:
 
 https://lrusso.github.io/JavaScriptSpellchecker/JavaScriptSpellchecker.htm
