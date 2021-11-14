@@ -152,15 +152,15 @@ function spellCheckWords()
 	self.postMessage(reply);
 	}
 
-function checkWord(word)
+function checkWord(initialWord)
 	{
 	try
 		{
 		// VALIDATING THE WORD LENGTH
-		if (word.length>2)
+		if (initialWord.length>2)
 			{
 			// LOWERCASING THE WORD
-			word = word.toLowerCase();
+			var word = initialWord.toLowerCase();
 
 			// SETTING A VARIABLE TO CHECK IF THE WORD WAS FOUND
 			var wordFound = false;
@@ -218,7 +218,7 @@ function checkWord(word)
 			if (wordFound==false)
 				{
 				// ADDING THE UNKNOWN WORD WITH THE SUGGESTIONS (IF ANY)
-				reply[word] = suggestionsToAdd;
+				reply[initialWord] = suggestionsToAdd;
 				}
 			}
 		}
