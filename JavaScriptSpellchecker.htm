@@ -8,7 +8,7 @@
 			.title{display:inline-block;font-size:30px;margin-left:10px;margin-top:10px;margin-bottom:10px;color:#2d3748;cursor:default}
 			textarea{display:inline-block;background-color:white;margin-left:10px;margin-bottom:10px;border:1px solid #e2e8f0;width:90%;height:300px;resize:none}
 			textarea:disabled{background-color:#CECECE;border:1px solid #e2e8f0}
-			#buttonSpellcheck{width:130px;background-color:#4299e1;margin-left:10px;border:1px solid #4299e1;border-radius:7px;font-size:15px;font-weight:bold;color:white;line-height:2.5;margin-top:5px;margin-bottom:10px;cursor:pointer}
+			#buttonSpellcheck{display:block;width:130px;background-color:#4299e1;margin-left:10px;border:1px solid #4299e1;border-radius:7px;font-size:15px;font-weight:bold;color:white;line-height:2.5;margin-top:5px;margin-bottom:10px;cursor:pointer}
 			#buttonSpellcheck:hover{background-color:#3182ce;border:1px solid #3182ce}
 			#results{display:inline-block;margin-left:10px;margin-top:10px;color:#2d3748;cursor:text;-webkit-user-select:text;-moz-user-select:text;user-select:text}
 		</style>
@@ -16,7 +16,7 @@
 	<body>
 		<span class="title">JavaScript Spellchecker</span><br/>
 		<textarea id="in" spellcheck="false">%thiz2 is a +tezt?.</textarea><br/>
-		<input type="button" id="buttonSpellcheck" value="SPELLCHECK"><br/>
+		<input type="button" id="buttonSpellcheck" value="SPELLCHECK">
 		<span id="results"></span>
 
 		<script>
@@ -30,10 +30,13 @@
 				var words = e.data;
 
 				// SHOWING THE RECEIVED MISSPELLED WORDS
-				document.getElementById("results").innerHTML = JSON.stringify(words);
+				document.getElementById("results").innerHTML = "<b>RESULT:</b>&nbsp;&nbsp;" + JSON.stringify(words);
 
 				// ENABLING THE OUT TEXTAREA
 				document.getElementById("in").disabled = false;
+
+				// SHOWING THE SPELLCHECKER BUTTON
+				document.getElementById("buttonSpellcheck").style.display = "block";
 
 				return true;
 				}
@@ -56,6 +59,9 @@
 
 				// DISABLING THE IN TEXTAREA
 				document.getElementById("in").disabled = true;
+
+				// HIDING THE SPELLCHECKER BUTTON
+				document.getElementById("buttonSpellcheck").style.display = "none";
 				}
 
 			// SETTING WHAT WILL HAPPEN WHEN WEBSITE IS LOADED

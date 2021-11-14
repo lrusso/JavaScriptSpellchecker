@@ -123,6 +123,9 @@ function spellCheckWords()
 	// CLEARING THE REPLY ARRAY
 	reply = {};
 
+	// GETTING THE TIMESTAMP BEFORE THE SPELLCHECKING PROCESS
+	var timestampBefore = Date.now();
+
 	try
 		{
 		// REMOVING DUPLICATED WORDS
@@ -138,6 +141,12 @@ function spellCheckWords()
 		catch(err)
 		{
 		}
+
+	// GETTING THE TIMESTAMP AFTER THE SPELLCHECKING PROCESS
+	var timestampAfter = Date.now();
+
+	// SHOWING AFTER HOW MANY MS THE PROCESS ENDED
+	console.log("Spellchecker process ended after " + (timestampAfter - timestampBefore) + " ms.");
 
 	// SENDING THE REPLY
 	self.postMessage(reply);
