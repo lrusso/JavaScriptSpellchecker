@@ -202,7 +202,7 @@ function checkWord(initialWord)
 					}
 
 				// CHECKING IF THE WORD WASN'T FOUND ACCORING THE FIRST CHARACTER OF THE WORD
-				if (dictonary[i].charCodeAt(0)>word.charCodeAt(0))
+				if (dictonary[i].charCodeAt(0)<122 && dictonary[i].charCodeAt(0)>word.charCodeAt(0))
 					{
 					// STOPPING THE SEARCHING PROCESS
 					i = dictonary.length;
