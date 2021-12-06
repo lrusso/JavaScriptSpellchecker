@@ -55,7 +55,7 @@ function downloadDictonary()
 	var oReq = new XMLHttpRequest();
 
 	// SETTING WHICH FILE MUST BE OBTAINED
-	oReq.open("GET", "intranetSpellchecker-" + lang +".zip", true);
+	oReq.open("GET", "JavaScriptSpellchecker-" + lang +".zip", true);
 
 	// SETTING THE RESPONSE TYPE
 	oReq.responseType = "blob";
@@ -194,7 +194,7 @@ function checkWord(initialWord)
 						}
 
 					// CHECKING IF THERE IS SUGGESTION TO BE ADDED
-					else if (isMisspelled<=1 && wordFound==false && suggestionsToAdd.length<5)
+					else if (isMisspelled<=1 && wordFound==false && suggestionsToAdd.length<3)
 						{
 						// ADDING THE SUGGESTION
 						suggestionsToAdd.push(dictonary[i]);
