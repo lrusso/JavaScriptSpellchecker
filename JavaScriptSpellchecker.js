@@ -55,7 +55,7 @@ function downloadDictonary()
 	var oReq = new XMLHttpRequest();
 
 	// SETTING WHICH FILE MUST BE OBTAINED
-	oReq.open("GET", "JavaScriptSpellchecker-" + lang +".zip", true);
+	oReq.open("GET", "intranetSpellchecker-" + lang +".zip", true);
 
 	// SETTING THE RESPONSE TYPE
 	oReq.responseType = "blob";
@@ -162,6 +162,9 @@ function checkWord(initialWord)
 			// LOWERCASING THE WORD
 			var word = initialWord.toLowerCase();
 
+			// TRIMMING THE WORD
+			word = word.trim();
+
 			// SETTING A VARIABLE TO CHECK IF THE WORD WAS FOUND
 			var wordFound = false;
 
@@ -174,6 +177,9 @@ function checkWord(initialWord)
 				// CHECKING IF THE WORD FIRST CHARACTER IS THE SAME AS THE WORD FROM THE DICTIONARY
 				if (dictonary[i].charCodeAt(0)==word.charCodeAt(0))
 					{
+					// TRIMMING THE DICTIONARY WORD
+					dictonary[i] = dictonary[i].trim();
+
 					// COMPARING THE INPUTTED WORD WITH THE WORD FROM THE DICTIONARY
 					var isMisspelled = getEditDistance(word,dictonary[i]);
 
@@ -181,36 +187,31 @@ function checkWord(initialWord)
 					if (isMisspelled==0)
 						{
 						// SETTING THAT THE WORD WAS FOUND
-						wordFound =true;
+						wordFound = true;
 
 						// STOPPING THE SEARCHING PROCESS
 						i = dictonary.length;
 						}
 
 					// CHECKING IF THERE IS SUGGESTION TO BE ADDED
-					else if (isMisspelled<=1 && wordFound==false && suggestionsToAdd.length<3)
+					else if (isMisspelled<=1 && wordFound==false && suggestionsToAdd.length<5)
 						{
 						// ADDING THE SUGGESTION
 						suggestionsToAdd.push(dictonary[i]);
 						}
 					}
 
-				// CHECKING IF THE CURRENT INDEX IS WITHIN THE DICTIONARY LENGTH
-				if (i<dictonary.length)
+				// CHECKING IF THE WORD WASN'T FOUND ACCORING THE FIRST CHARACTER OF THE WORD
+				if (dictonary[i].charCodeAt(0)>word.charCodeAt(0))
 					{
-					// CHECKING IF THE WORD WASN'T FOUND ACCORING THE FIRST CHARACTER OF THE WORD
-					if (dictonary[i].charCodeAt(0)<122 && dictonary[i].charCodeAt(0)>word.charCodeAt(0))
-						{
-						// STOPPING THE SEARCHING PROCESS
-						i = dictonary.length;
-						}
+					// STOPPING THE SEARCHING PROCESS
+					i = dictonary.length;
+					}
 
-					// CHECKING IF UP TO THREE SUGGESTION WERE FOUND AND THE WORD WASN'T FOUND
-					if (suggestionsToAdd.length>=3 && wordFound==false)
-						{
-						// STOPPING THE SEARCHING PROCESS
-						i = dictonary.length;
-						}
+				if (wordFound==true)
+					{
+					// STOPPING THE SEARCHING PROCESS
+					i = dictonary.length;
 					}
 				}
 
