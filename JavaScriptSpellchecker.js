@@ -171,7 +171,7 @@ function checkWord(initialWord)
 			word = word.trim();
 
 			// CHECKING IF THE WORD IS NOT FOUND IN THE DICTIONARY
-			if (RAWDATA.indexOf("\n" + word + "\n")!==false)
+			if (RAWDATA.indexOf("\n" + word + "\n")==-1)
 				{
 				// GETTING WHERE THE DICTIONARY FRAGMENT WILL START AND END
 				var dictionaryStartsAt = String.fromCharCode(word.charCodeAt(0));
