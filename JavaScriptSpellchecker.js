@@ -229,10 +229,6 @@ function checkWord(initialWord)
 				// ADDING THE UNKNOWN WORD WITH THE SUGGESTIONS (IF ANY)
 				reply[initialWord] = suggestionsToAdd;
 				}
-				else
-				{
-				console.log('encuentra ' + word)
-				}
 			}
 		}
 		catch(err)
