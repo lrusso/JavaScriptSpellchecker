@@ -7,6 +7,7 @@ var lastCharacter = "";
 var lang = null;
 var words = [];
 var reply = {};
+var maxSuggestions = 3;
 
 // https://gist.github.com/andrei-m/982927
 function getEditDistance(a, b)
@@ -236,14 +237,14 @@ function checkWord(initialWord)
 					var isMisspelled = getEditDistance(word,dictionary[i]);
 
 					// CHECKING IF THERE IS SUGGESTION TO BE ADDED
-					if (isMisspelled<=1 && suggestionsToAdd.length<3)
+					if (isMisspelled<=1 && suggestionsToAdd.length<maxSuggestions)
 						{
 						// ADDING THE SUGGESTION
 						suggestionsToAdd.push(dictionary[i]);
 						}
 
 					// CHECKING IF THE SEARCHING PROCESS MUST BE STOPPED
-					if (suggestionsToAdd.length==3)
+					if (suggestionsToAdd.length==maxSuggestions)
 						{
 						// STOPPING THE SEARCHING PROCESS
 						i = dictionary.length;
@@ -275,6 +276,9 @@ self.addEventListener("message", function(e)
 
 			// SETTING THE REQUIRED LANGUAGE
 			lang = workerMessage.lang;
+
+			// SETTING THE REQUIRED SUGGESTIONS (3 AS DEFAULT)
+			maxSuggestions = workerMessage.suggestions || 3;
 
 			// CHECKING IF THERE ARE WORDS
 			if (words)

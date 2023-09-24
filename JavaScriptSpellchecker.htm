@@ -68,6 +68,7 @@
 				var dataRequest = {};
 				dataRequest["lang"] = language;
 				dataRequest["words"] = results;
+				dataRequest["suggestions"] = 3;
 
 				// SENDING THE SPELLCHECKING REQUEST
 				worker.postMessage(dataRequest);
