@@ -71,31 +71,55 @@ function downloadDictionary()
 			// CHECKING IF THE REQUEST STATUS
 			if (oReq.status==200)
 				{
-				// CREATING A ZIP READER
-				var zipReader = new JSZip();
-
-				// READING THE DOWNLOADED FILE
-				zipReader.loadAsync(oReq.response).then(function(zip)
+				try
 					{
-					// EXTRACTING THE CSV FILE
-					zip.file(lang + ".dic").async("string").then(function(data)
+					// CREATING A ZIP READER
+					var zipReader = new JSZip();
+
+					// READING THE DOWNLOADED FILE
+					zipReader.loadAsync(oReq.response).then(function(zip)
 						{
-						// PUTTING THE FILE CONTENT INTO THE VARIABLE
-						RAWDATA = data;
+						// EXTRACTING THE CSV FILE
+						zip.file(lang + ".dic").async("string").then(function(data)
+							{
+							try
+								{
+								// PUTTING THE FILE CONTENT INTO THE VARIABLE
+								RAWDATA = data;
 
-						// ADDING A BREAKLINE AT THE BEGINING AND END OF THE LIST
-						RAWDATA = "\n" + RAWDATA + "\n";
+								// ADDING A BREAKLINE AT THE BEGINING AND END OF THE LIST
+								RAWDATA = "\n" + RAWDATA + "\n";
 
-						// SPELLCHECKING THE RECEIVED WORDS
-						spellCheckWords();
+								// SPELLCHECKING THE RECEIVED WORDS
+								spellCheckWords();
+								}
+								catch(err)
+								{
+								// RETURNING AN EMPTY VALUE
+								self.postMessage({});
+								}
+							}).catch(function(err)
+							{
+							// RETURNING AN EMPTY VALUE
+							self.postMessage({});
+							});
+						}).catch(function(err)
+						{
+						// RETURNING AN EMPTY VALUE
+						self.postMessage({});
 						});
-					});
+					}
+					catch(err)
+					{
+					// RETURNING AN EMPTY VALUE
+					self.postMessage({});
+					}
 				}
 			}
 		};
 
-	// IF DURING THE REQUEST IS AN ERROR, THE REQUEST IS EXECUTED ONE MORE TIME
-	oReq.onerror = function(){setTimeout(function(){downloadDictionary();},1000);};
+	// IF DURING THE REQUEST IS AN ERROR, THE WORKER WILL RETURN AN EMPTY VALUE
+	oReq.onerror = function(){self.postMessage({});};
 
 	// IF DURING THE REQUEST IS A TIMEOUT, THE REQUEST IS EXECUTED ONE MORE TIME
 	oReq.ontimeout = function(e){setTimeout(function(){downloadDictionary();},1000);};
